@@ -15,7 +15,7 @@
     </head>
     <body>
         <div class="mdl-layout mdl-layout__content ">
-            <c:url var="edit" value="/user/add"/>
+            <c:url var="edit" value="/admin/user/add"/>
             <form action="${edit}"  class="mdl-layout" modelAttribute="userAdd" method="POST" >
                 <h6>Edit User</h6>
                 <input type="hidden" name="id" value="${user.id}"/>
@@ -25,11 +25,7 @@
                     <input class="mdl-textfield__input" type="text" id="username" name="userName" value="${user.userName}"/>
 
                 </div>
-                <div class="mdl-layout mdl-textfield mdl-js-textfield" >
-                    <input class="mdl-textfield__input" type="text" id="password" name="password" value="${user.password}"/>
-                </div>
-
-
+               
                 <div class="mdl-layout mdl-textfield mdl-js-textfield" >
                     <input class="mdl-textfield__input" type="email" id="email" name="email" value="${user.email}"/>
                 </div>
@@ -43,7 +39,7 @@
                     <input class="mdl-textfield__input" type="text" id="status"  name="status" value="${user.status}"/>
                 </div>
                 <div>
-                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit">
                         Edit
                     </button>
                 </div>

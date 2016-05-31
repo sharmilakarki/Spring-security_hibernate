@@ -27,17 +27,19 @@ public class UserRoles {
     @GeneratedValue
     @Column(name="role_id")
     private int id;
-  
+    
+    @Column(name="user_id")
+    private int userId;
     @Column(name="role")
     private String role;
     @Column(name="username")
     private String username;
-    
-    @JoinColumns({
-        @JoinColumn(name = "username", referencedColumnName = "userName", nullable = false,insertable = false,updatable = false),
-        @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false,insertable = false,updatable = false)})
-    @ManyToOne(optional = false)
-    private User user;
+//    
+//    @JoinColumns({
+//        @JoinColumn(name = "username", referencedColumnName = "userName", nullable = false,insertable = false,updatable = false),
+//        @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false,insertable = false,updatable = false)})
+//    @ManyToOne(optional = false)
+//    private User user;
 
     public UserRoles() {
     }
@@ -46,7 +48,15 @@ public class UserRoles {
         this.id = id;
         this.role = role;
         this.username = username;
-        this.user = user;
+//        this.user = user;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
    

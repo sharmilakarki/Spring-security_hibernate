@@ -8,15 +8,23 @@ package com.sharmila.hibernatespringsecurity.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.hibernate.annotations.Cascade;
 
 /**
  *
@@ -27,7 +35,7 @@ import javax.persistence.TemporalType;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private int id;
     @Column(name = "username")
@@ -39,35 +47,43 @@ public class User implements Serializable {
     @Column(name = "address")
     private String address;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "added_date",insertable = false)
+    @Column(name = "added_date", insertable = false)
     private Date addedDate;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "modified_date",nullable = true)
+    @Column(name = "modified_date", nullable = true)
     private Date modifiedDate;
     @Column(name = "enabled")
     private boolean status;
 
-   @OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
-    private List<UserRoles> userRoleList;
+    @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.LAZY)
+   
+    @JoinTable(name = "role_user",
+            joinColumns = {
+                @JoinColumn(name = "user_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "role_id")})
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Role> role;
 
     public User() {
     }
 
-    public User(int id, String userName, String password, String email, String address, Date addedDate, Date modifiedDate, boolean status, List<UserRoles> userRoleList) {
+    public User(int id, String userName) {
+        this.id = id;
+        this.userName = userName;
+    }
+
+    public User(int id, String userName, String password, String email, String address, Date modifiedDate, boolean status, Set<Role> role) {
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.email = email;
         this.address = address;
-        this.addedDate = addedDate;
         this.modifiedDate = modifiedDate;
         this.status = status;
-        this.userRoleList = userRoleList;
+        this.role = role;
     }
 
-   
-
-    
     public int getId() {
         return id;
     }
@@ -75,18 +91,6 @@ public class User implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-//
-//    public List<UserRoles> getUserRoleList() {
-//        return userRoleList;
-//    }
-//
-//    public void setUserRoleList(List<UserRoles> userRoleList) {
-//        this.userRoleList = userRoleList;
-//    }
-
-    
-
-   
 
     public String getUserName() {
         return userName;
@@ -144,18 +148,17 @@ public class User implements Serializable {
         this.status = status;
     }
 
-    public List<UserRoles> getUserRoleList() {
-        return userRoleList;
+    public Set<Role> getRole() {
+        return role;
     }
 
-    public void setUserRoleList(List<UserRoles> userRoleList) {
-        this.userRoleList = userRoleList;
+    public void setRole(Set<Role> role) {
+        this.role = role;
     }
 
-    
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", userName=" + userName + ", password=" + password + ", email=" + email + ", address=" + address + ", addedDate=" + addedDate + ", modifiedDate=" + modifiedDate + ", status=" + status + '}';
+        return "User{" + "id=" + id + ", userName=" + userName + ", password=" + password + ", email=" + email + ", address=" + address + ", addedDate=" + addedDate + ", modifiedDate=" + modifiedDate + ", status=" + status + ", role=" + role + '}';
     }
 
 }

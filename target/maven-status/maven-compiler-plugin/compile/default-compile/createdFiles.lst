@@ -1,6 +1,9 @@
 com\sharmila\hibernatespringsecurity\entity\UserRoles.class
+com\sharmila\hibernatespringsecurity\dao\RoleDao.class
 com\sharmila\hibernatespringsecurity\controller\DefaultController.class
+com\sharmila\hibernatespringsecurity\dao\impl\RoleDaoImpl.class
 com\sharmila\hibernatespringsecurity\entity\User.class
+com\sharmila\hibernatespringsecurity\entity\Role.class
 com\sharmila\hibernatespringsecurity\service\UserService.class
 com\sharmila\hibernatespringsecurity\dao\impl\UserRolesDaoImpl.class
 com\sharmila\hibernatespringsecurity\service\UserRoleService.class

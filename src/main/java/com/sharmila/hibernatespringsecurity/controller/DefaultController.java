@@ -5,8 +5,17 @@
  */
 package com.sharmila.hibernatespringsecurity.controller;
 
+import com.sharmila.hibernatespringsecurity.dao.RoleDao;
+import com.sharmila.hibernatespringsecurity.entity.Role;
 import com.sharmila.hibernatespringsecurity.service.UserService;
 import com.sharmila.hibernatespringsecurity.entity.User;
+import com.sharmila.hibernatespringsecurity.entity.UserRoles;
+import com.sharmila.hibernatespringsecurity.service.UserRoleService;
+import java.security.Principal;
+import java.util.HashSet;
+import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +24,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,7 +42,11 @@ public class DefaultController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRoleService userRoleService;
 
+    @Autowired
+    private RoleDao roleDao;
     private Session session;
 
     @RequestMapping
@@ -39,16 +54,21 @@ public class DefaultController {
         return "index";
     }
 
-    @RequestMapping(value = "/login")
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView defaultPage(@RequestParam(value = "error", required = false) String error,
-            @RequestParam(value = "logout", required = false) String logout) {
+            @RequestParam(value = "logout", required = false) String logout, HttpServletRequest request, HttpServletResponse response) {
         ModelAndView model = new ModelAndView();
         if (error != null) {
             model.addObject("error", "Invalid user credentials");
         }
         if (logout != null) {
             model.addObject("message", "Logged out successfully");
+            request.getSession().invalidate();
         }
+
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expires", 0);
         model.setViewName("login");
         return model;
     }
@@ -61,9 +81,11 @@ public class DefaultController {
         return mv;
     }
 
-    @RequestMapping(value = "/admin/**")
-    public String adminProfile() {
-
+    @RequestMapping(value = "/admin/**",method = RequestMethod.GET)
+    public String adminProfile(Principal principal,ModelMap map) {
+        String name=principal.getName();
+       
+        map.addAttribute("username", name);
         return "adminDashboard";
     }
 
@@ -89,16 +111,20 @@ public class DefaultController {
         return model;
     }
 
-    @RequestMapping(value = "/user/AllUsers")
+    @RequestMapping(value = "/admin/AllUsers")
     public ModelAndView getUsers() {
 
         return new ModelAndView("AllUsers", "user", userService.getAll());
     }
 
-    @RequestMapping("/user/add")
-    public ModelAndView addUser(@ModelAttribute("userAdd") User user) {
-
-        if (user.getId() == 0) {
+    @RequestMapping(value = "/admin/user/add", method = RequestMethod.POST)
+    public String addUser(@ModelAttribute("userAdd") User user, @RequestParam("id") int id) {
+        User u = userService.getById(id);
+        if (u.getId() == 0) {
+            Role role = roleDao.getById(2);
+            Set<Role> roles = new HashSet<Role>();
+            roles.add(role);
+            user.setRole(roles);
             userService.insert(user);
 
         } else {
@@ -106,13 +132,13 @@ public class DefaultController {
             userService.update(user);
         }
 
-        return new ModelAndView("redirect:/user/AllUsers");
+        return "redirect:/login";
     }
 
     @RequestMapping(value = "delete")
     public ModelAndView deleteUser(@RequestParam int id) {
         userService.delete(id);
-        return new ModelAndView("redirect:/user/AllUsers");
+        return new ModelAndView("redirect:/admin/AllUsers");
     }
 
     @RequestMapping(value = "edit")

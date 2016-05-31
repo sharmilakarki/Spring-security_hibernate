@@ -6,10 +6,12 @@
 package com.sharmila.hibernatespringsecurity.dao.impl;
 
 import com.sharmila.hibernatespringsecurity.dao.UserDao;
+import com.sharmila.hibernatespringsecurity.entity.Role;
 import com.sharmila.hibernatespringsecurity.entity.User;
 import java.util.ArrayList;
 
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import org.hibernate.SessionFactory;
@@ -54,6 +56,8 @@ public class UserDaoImpl implements UserDao {
         if (null!=u) {
             session.delete(u);
         }
+       
+        
         transaction.commit();
         session.close();
         
@@ -91,12 +95,43 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getByName(String username) {
+    @SuppressWarnings("unchecked")
+    public User getByUserName(String username) {
         session=sessionFactory.openSession();
-        User user=(User) session.get(User.class, new String(username));
-        
+        List<User> userList=new ArrayList<User>();
+        userList=session.createQuery("select u from User u where username=?").setParameter(0, username).list();
+        if(userList.size()>0){
+            return userList.get(0);
+        }
+      
+         
         session.close();
-        return user;
+        return null;
+       
+    }
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
     }
 
 }

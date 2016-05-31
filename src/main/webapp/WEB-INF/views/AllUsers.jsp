@@ -16,18 +16,17 @@
     <body>
         <div class="pull-left">
             <p>
-                <a href="${URL}/user/login" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"></a>
+                <a href="#" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"></a>
             </p>
         </div>
         <div class="container">
-            <table class="" id="tblData">
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table-selectable mdl-shadow--2dp" id="tblData" align="center">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>USER NAME</th>
                         <th>EMAIL</th>
                         <th>ADDRESS</th>                   
-
                         <th>ADDED DATE</th>                   
                         <th>MODIFIED DATE</th>
                         <th>STATUS</th>
@@ -39,16 +38,16 @@
 
                     <c:forEach var="user" items="${user}">
                         <tr>
-                            <td>${user.id}</td>
-                            <td>${user.userName}</td>
-                            <td>${user.email}</td>
-                            <td>${user.address}</td>
+                            <td class="mdl-data-table__cell--non-numeric">${user.id}</td>
+                            <td class="mdl-data-table__cell--non-numeric">${user.userName}</td>
+                            <td class="mdl-data-table__cell--non-numeric">${user.email}</td>
+                            <td class="mdl-data-table__cell--non-numeric">${user.address}</td>
 
-                            <td>${user.addedDate}</td>
-                            <td>${user.modifiedDate}</td>
-                            <td>${user.status}</td>
+                            <td class="mdl-data-table__cell--non-numeric">${user.addedDate}</td>
+                            <td class="mdl-data-table__cell--non-numeric">${user.modifiedDate}</td>
+                            <td class="mdl-data-table__cell--non-numeric">${user.status}</td>
 
-                            <td><a href="${URL}/edit?id=${user.id}" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-edit">Edit  </span></a>
+                            <td class="mdl-data-table__cell--non-numeric"><a href="${URL}/edit?id=${user.id}" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-edit">Edit  </span></a>
                                 &nbsp;&nbsp;
                                 <a href="${URL}/delete?id=${user.id}" id="deleteBtn" class="btn btn-sm btn-danger" onclick="return check();"><span class="glyphicon glyphicon-remove">Delete</span></a>
                             </td>

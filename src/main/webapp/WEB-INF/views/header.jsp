@@ -14,7 +14,7 @@
         
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-pink.min.css">
-        <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+        <script defer src="${URL}/static/extraJS/1.1.3.material.min.js"></script>
          <link href="${URL}/static/mdl/material.min.css" rel="stylesheet" type="text/css"/>
          <script src="${URL}/static/mdl/material.min.js" type="text/javascript"></script>
          <script src="${URL}/static/extraJS/jquery.min.js" type="text/javascript"></script>
