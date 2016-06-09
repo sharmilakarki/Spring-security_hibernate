@@ -9,9 +9,10 @@ import com.sharmila.hibernatespringsecurity.dao.RoleDao;
 import com.sharmila.hibernatespringsecurity.entity.Role;
 import com.sharmila.hibernatespringsecurity.service.UserService;
 import com.sharmila.hibernatespringsecurity.entity.User;
-import com.sharmila.hibernatespringsecurity.entity.UserRoles;
 import com.sharmila.hibernatespringsecurity.service.UserRoleService;
 import java.security.Principal;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author sharmila
  */
 @Controller
-@RequestMapping("/")
+@RequestMapping(value = "/")
 public class DefaultController {
 
     @Autowired
@@ -45,11 +46,12 @@ public class DefaultController {
     @Autowired
     private UserRoleService userRoleService;
 
+   
     @Autowired
     private RoleDao roleDao;
     private Session session;
 
-    @RequestMapping
+    @RequestMapping(method = RequestMethod.GET)
     public String index() {
         return "index";
     }
@@ -81,7 +83,7 @@ public class DefaultController {
         return mv;
     }
 
-    @RequestMapping(value = "/admin/**",method = RequestMethod.GET)
+    @RequestMapping(value = "/admin",method = RequestMethod.GET)
     public String adminProfile(Principal principal,ModelMap map) {
         String name=principal.getName();
        
@@ -114,25 +116,38 @@ public class DefaultController {
     @RequestMapping(value = "/admin/AllUsers")
     public ModelAndView getUsers() {
 
-        return new ModelAndView("AllUsers", "user", userService.getAll());
+        return new ModelAndView("AllUsers", "user", userService.getFetchEager());
     }
 
-    @RequestMapping(value = "/admin/user/add", method = RequestMethod.POST)
-    public String addUser(@ModelAttribute("userAdd") User user, @RequestParam("id") int id) {
-        User u = userService.getById(id);
-        if (u.getId() == 0) {
+    @RequestMapping(value = "user/add", method = RequestMethod.POST)
+    public ModelAndView addUser(@ModelAttribute("user") User user, BindingResult result) {
+        System.out.println("inside insert");
+        
             Role role = roleDao.getById(2);
             Set<Role> roles = new HashSet<Role>();
             roles.add(role);
             user.setRole(roles);
             userService.insert(user);
+//            System.out.println("Users "+user.toString());
+       
+        return new ModelAndView ("redirect:/admin/AllUsers");
+    }
 
-        } else {
-            System.out.println(user.toString());
+    @RequestMapping(value = "admin/editUser", method = RequestMethod.POST)
+    public String editUser(@ModelAttribute("userAdd") User user, BindingResult result, @RequestParam("id") int id) {
+        String view = "";
+        User u = userService.getById(id);
+        if (u.getId() != 0) {
+
+            Date date = new Date();
+            Timestamp t = new Timestamp(date.getTime());
+            user.setModifiedDate(t);
             userService.update(user);
+//            view="redirect:/adminDashboard";
         }
+        System.out.println(user.toString());
 
-        return "redirect:/login";
+        return "redirect:/admin/AllUsers";
     }
 
     @RequestMapping(value = "delete")

@@ -31,8 +31,12 @@
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-                <prop key="hibernate.format_show">true</prop>
-                <prop key="hibernate.sql_show">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
+                <prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</prop>
+            
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
             </props>
         </property>
         
@@ -43,7 +47,7 @@
     </bean>
 
     <bean id="userService" 
-              class="com.sharmila.hibernatespringsecurity.service.UserService">
+          class="com.sharmila.hibernatespringsecurity.service.UserService">
         <property name="userDao" ref="userDao" />
     </bean>
     <bean id="transactionManager"

@@ -19,4 +19,7 @@ public interface UserDao {
     List<User> getAll();
     User getById(int id);
     User getByUserName(String username);
+    User getByRole(String role);
+    List<User> getFetchEager();
+
 }

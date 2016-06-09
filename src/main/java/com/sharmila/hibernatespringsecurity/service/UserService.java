@@ -6,7 +6,6 @@
 package com.sharmila.hibernatespringsecurity.service;
 
 import com.sharmila.hibernatespringsecurity.dao.UserDao;
-import com.sharmila.hibernatespringsecurity.dao.UserRolesDao;
 import com.sharmila.hibernatespringsecurity.entity.Role;
 import com.sharmila.hibernatespringsecurity.entity.User;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ import org.springframework.stereotype.Service;
  * @author sharmila
  */
 @Service
-public class UserService implements UserDetailsService {
+public class UserService implements UserDetailsService{
 
     @Autowired
     private UserDao userDao;
@@ -55,7 +54,13 @@ public class UserService implements UserDetailsService {
     public User getByUserName(String username) {
         return userDao.getByUserName(username);
     }
-
+    public User getByRole(String role){
+        return userDao.getByRole(role);
+    }
+     public List<User> getFetchEager(){
+        return userDao.getFetchEager();
+    }
+//
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         User user = getByUserName(username);

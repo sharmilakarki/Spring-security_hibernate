@@ -55,7 +55,7 @@ public class User implements Serializable {
     @Column(name = "enabled")
     private boolean status;
 
-    @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
    
     @JoinTable(name = "role_user",
             joinColumns = {

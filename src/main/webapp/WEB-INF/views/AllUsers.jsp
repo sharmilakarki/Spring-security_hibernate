@@ -14,11 +14,7 @@
         <link href="${URL}/static/css/myForm.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <div class="pull-left">
-            <p>
-                <a href="#" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"></a>
-            </p>
-        </div>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
         <div class="container">
             <table class="mdl-data-table mdl-js-data-table mdl-data-table-selectable mdl-shadow--2dp" id="tblData" align="center">
                 <thead>
@@ -26,7 +22,8 @@
                         <th>ID</th>
                         <th>USER NAME</th>
                         <th>EMAIL</th>
-                        <th>ADDRESS</th>                   
+                        <th>ADDRESS</th> 
+                        <th>ROLE</th> 
                         <th>ADDED DATE</th>                   
                         <th>MODIFIED DATE</th>
                         <th>STATUS</th>
@@ -42,6 +39,11 @@
                             <td class="mdl-data-table__cell--non-numeric">${user.userName}</td>
                             <td class="mdl-data-table__cell--non-numeric">${user.email}</td>
                             <td class="mdl-data-table__cell--non-numeric">${user.address}</td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <c:forEach var="u" items="${user.role}">
+                                    ${u.role}
+                                </c:forEach>
+                            </td>
 
                             <td class="mdl-data-table__cell--non-numeric">${user.addedDate}</td>
                             <td class="mdl-data-table__cell--non-numeric">${user.modifiedDate}</td>
@@ -57,5 +59,6 @@
 
             </table>
         </div>
+        </sec:authorize>
     </body>
 </html>
