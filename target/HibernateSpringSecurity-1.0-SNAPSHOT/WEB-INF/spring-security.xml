@@ -1,5 +1,6 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
              xmlns:beans="http://www.springframework.org/schema/beans" 
+             
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -25,10 +26,22 @@
        
        
 	<logout logout-success-url="/login?logout" logout-url="/logout" />
+        
+        
+        <remember-me data-source-ref="dataSource" token-validity-seconds="86400"/>
 		<!-- enable csrf protection -->
 		<csrf/>
 	</http>
+<!--        <beans:bean id="rememberMeAuthenticationProvider" class="org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices">
+            
+            <beans:constructor-arg value="jdbcTokenBasedRepository"/>
+            <beans:constructor-arg value="userService"/>
+        </beans:bean>-->
         
+        <beans:bean id="jdbcTokenBasedRepository" class="org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl">
+            <beans:property name="createTableOnStartup" value="false"/>
+            <beans:property name="dataSource" ref="dataSource"/>
+        </beans:bean>
         
        <beans:bean id="myAuthenticationSuccessHandler" class="com.sharmila.hibernatespringsecurity.authentication.MyAuthenticationSuccessHandler"/>
 

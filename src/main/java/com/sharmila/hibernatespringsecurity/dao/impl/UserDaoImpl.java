@@ -9,6 +9,7 @@ import com.sharmila.hibernatespringsecurity.dao.RoleDao;
 import com.sharmila.hibernatespringsecurity.dao.UserDao;
 import com.sharmila.hibernatespringsecurity.entity.Role;
 import com.sharmila.hibernatespringsecurity.entity.User;
+import com.sharmila.hibernatespringsecurity.entity.UserRoles;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -30,8 +31,7 @@ public class UserDaoImpl implements UserDao {
 
     @Autowired
     private SessionFactory sessionFactory;
-    
-    
+
     @Autowired
     private RoleDao roleDao;
 
@@ -59,16 +59,14 @@ public class UserDaoImpl implements UserDao {
         transaction = session.beginTransaction();
         User u = (User) session.get(User.class, new Integer(id));
         if (null != u) {
-            
-            for(Role role:u.getRole()){
-                  u.getRole().remove(role);
-                 
+
+            for (Role role : u.getRole()) {
+                u.getRole().remove(role);
+
             }
-          
-          
+
             session.delete(u);
-                    
-             
+
         }
 
         transaction.commit();
@@ -80,7 +78,7 @@ public class UserDaoImpl implements UserDao {
     public void update(User user) {
         session = sessionFactory.openSession();
         transaction = session.beginTransaction();
-        session.update(user);
+        session.saveOrUpdate(user);
         transaction.commit();
         session.close();
 
@@ -90,7 +88,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> getAll() {
         List<User> userList = new ArrayList<>();
         session = sessionFactory.openSession();
-        userList = session.createQuery("select u from User u join u.role ").list();
+        userList = session.createQuery("select u from User u inner join u.role  ").list();
         User user = new User();
 
         Hibernate.initialize(user.getRole());

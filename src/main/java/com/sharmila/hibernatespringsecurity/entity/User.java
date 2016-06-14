@@ -24,6 +24,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.Cascade;
 
 /**
@@ -55,9 +56,9 @@ public class User implements Serializable {
     @Column(name = "enabled")
     private boolean status;
 
-    @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},fetch = FetchType.EAGER)
    
-    @JoinTable(name = "role_user",
+    @JoinTable(name = "user_role",
             joinColumns = {
                 @JoinColumn(name = "user_id")},
             inverseJoinColumns = {
@@ -149,6 +150,7 @@ public class User implements Serializable {
     }
 
     public Set<Role> getRole() {
+        Hibernate.initialize(role);
         return role;
     }
 

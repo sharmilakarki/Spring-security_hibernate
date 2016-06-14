@@ -6,6 +6,7 @@
 package com.sharmila.hibernatespringsecurity.dao;
 
 import com.sharmila.hibernatespringsecurity.entity.User;
+import com.sharmila.hibernatespringsecurity.entity.UserRoles;
 import java.util.List;
 
 /**

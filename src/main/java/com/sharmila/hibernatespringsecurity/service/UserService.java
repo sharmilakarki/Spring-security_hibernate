@@ -8,9 +8,13 @@ package com.sharmila.hibernatespringsecurity.service;
 import com.sharmila.hibernatespringsecurity.dao.UserDao;
 import com.sharmila.hibernatespringsecurity.entity.Role;
 import com.sharmila.hibernatespringsecurity.entity.User;
+import com.sharmila.hibernatespringsecurity.entity.UserRoles;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,7 +33,15 @@ public class UserService implements UserDetailsService{
 
     @Autowired
     private UserDao userDao;
+   
+    
+            
+    public UserService() {
+//      getUsers();
+    }
 
+   
+    
     public void insert(User user) {
         userDao.insert(user);
 
@@ -64,6 +76,7 @@ public class UserService implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         User user = getByUserName(username);
+        
         List<GrantedAuthority> authorities = buildUserAuthority(user.getRole());
         return buildUserForAuthentication(user, authorities);
     }
@@ -93,5 +106,16 @@ public class UserService implements UserDetailsService{
         this.userDao = userDao;
     }
     
+//    public void getUsers(){
+//        getAll();
+//        for(User user:userDao.getAll()){
+////            loadUserByUsername(user.getUserName());
+//            System.out.println(user.toString());
+//        }
+       
+        
     
+
+ 
+
 }

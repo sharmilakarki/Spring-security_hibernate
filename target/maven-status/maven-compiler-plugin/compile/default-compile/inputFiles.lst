@@ -1,4 +1,3 @@
-C:\Users\sharmila\Documents\NetBeansProjects\HibernateSpringSecurity\src\main\java\com\sharmila\hibernatespringsecurity\service\UserRoleService.java
 C:\Users\sharmila\Documents\NetBeansProjects\HibernateSpringSecurity\src\main\java\com\sharmila\hibernatespringsecurity\entity\User.java
 C:\Users\sharmila\Documents\NetBeansProjects\HibernateSpringSecurity\src\main\java\com\sharmila\hibernatespringsecurity\service\UserService.java
 C:\Users\sharmila\Documents\NetBeansProjects\HibernateSpringSecurity\src\main\java\com\sharmila\hibernatespringsecurity\controller\DefaultController.java
@@ -11,4 +10,5 @@ C:\Users\sharmila\Documents\NetBeansProjects\HibernateSpringSecurity\src\main\ja
 C:\Users\sharmila\Documents\NetBeansProjects\HibernateSpringSecurity\src\main\java\com\sharmila\hibernatespringsecurity\entity\Role.java
 C:\Users\sharmila\Documents\NetBeansProjects\HibernateSpringSecurity\src\main\java\com\sharmila\hibernatespringsecurity\authentication\MyAuthenticationSuccessHandler.java
 C:\Users\sharmila\Documents\NetBeansProjects\HibernateSpringSecurity\src\main\java\com\sharmila\hibernatespringsecurity\dao\UserDao.java
+C:\Users\sharmila\Documents\NetBeansProjects\HibernateSpringSecurity\src\main\java\com\sharmila\hibernatespringsecurity\service\UserRolesService.java
 C:\Users\sharmila\Documents\NetBeansProjects\HibernateSpringSecurity\src\main\java\com\sharmila\hibernatespringsecurity\filter\MyFilter.java
